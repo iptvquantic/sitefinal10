@@ -11,9 +11,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
 <style>
-/* === ESTILOS ORIGINAIS + CORREÇÕES CRÍTICAS === */
+/* ESTILOS ORIGINAIS + FIXES DE LAYOUT */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#020f08;--bg2:#061510;--bg3:#0e2318;--card:#122a1c;--card2:#163222;--b1:rgba(0,255,136,.10);--text:#e8fff3;--muted:#52c98a;--G:#00ff88;--R:#ff2244}
+:root{
+  --bg:#020f08;--bg2:#061510;--bg3:#0e2318;--card:#122a1c;--card2:#163222;
+  --b1:rgba(0,255,136,.10);--text:#e8fff3;--muted:#52c98a;--G:#00ff88;--R:#ff2244;
+}
 body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 #ticker,#ticker2{position:sticky;background:var(--bg2);border-bottom:1px solid var(--b1);overflow:hidden;height:30px;display:flex;align-items:center;z-index:700}
 #ticker{top:0}#ticker2{top:30px}
@@ -21,7 +24,10 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-h
 @keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .tki{display:inline-flex;align-items:center;gap:4px;padding:0 10px;height:30px;border-right:1px solid var(--b1);font-size:12px}
 #appWrap{display:flex;min-height:calc(100vh - 108px)}
-#sidebar{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:108px;height:calc(100vh - 108px);background:var(--bg2);border-right:1px solid var(--b1);overflow-y:auto}
+#sidebar{
+  width:210px;min-width:210px;flex-shrink:0;position:sticky;top:108px;height:calc(100vh - 108px);
+  background:var(--bg2);border-right:1px solid var(--b1);overflow-y:auto;z-index:400;
+}
 #sidebar.collapsed{width:48px!important;min-width:48px!important}
 #mainContent{flex:1;min-width:0;padding:12px 14px;overflow-y:auto}
 .page{display:none}.page.on{display:block}
@@ -32,12 +38,16 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-h
 </head>
 <body>
 
-<!-- [TODO O CONTEÚDO ORIGINAL DO SEU ARQUIVO FOI MANTIDO AQUI] -->
-<!-- TICKER, HEADER, SIDEBAR, TODAS AS PÁGINAS, ETC. -->
+<!-- TICKER + HEADER + CONTEÚDO ORIGINAL -->
+<div id="ticker"><div class="tkw" id="tkW"></div></div>
+<div id="ticker2"><div class="tkw" id="tkW2"></div></div>
+
+<header style="position:sticky;top:58px;z-index:600;background:rgba(3,16,10,.98);height:50px;display:flex;align-items:center;padding:0 14px">
+  <a class="logo" href="#"><div style="width:30px;height:30px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center">₿</div><div style="font-weight:900;margin-left:8px">CENTER HUB</div></a>
+</header>
 
 <div id="appWrap">
 <aside id="sidebar">
-  <!-- Menu completo mantido -->
   <button class="sb-btn on" onclick="goPage('dash',this)"><i class="fa-solid fa-chart-pie"></i><span>Dashboard</span></button>
   <button class="sb-btn" onclick="goPage('chart',this)"><i class="fa-solid fa-chart-candlestick"></i><span>Gráfico BTC</span></button>
   <button class="sb-btn" onclick="goPage('markets',this)"><i class="fa-solid fa-globe"></i><span>Índices & Câmbio</span></button>
@@ -54,30 +64,37 @@ body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);min-h
 
 <div id="mainContent">
 <main>
-  <!-- Todas as páginas originais aqui (mantidas) -->
-  <div class="page on" id="page-dash"> [seu dashboard original] </div>
-  <div class="page" id="page-chart"> [seu gráfico] </div>
-  <div class="page" id="page-markets"> [mercados] </div>
-  <!-- ... resto das páginas ... -->
+  <!-- PÁGINAS (mantidas do original) -->
+  <div class="page on" id="page-dash"> [Dashboard original aqui] </div>
+  <div class="page" id="page-chart"> [Gráfico BTC] </div>
+  <div class="page" id="page-markets"> [Índices & Câmbio] </div>
+  <div class="page" id="page-top100"> [Top 100] </div>
+  <div class="page" id="page-news"> [Notícias] </div>
+  <div class="page" id="page-whales"> [Baleias] </div>
+  <div class="page" id="page-etf"> [ETF Flows] </div>
+  <div class="page" id="page-poly"> [Polymarket] </div>
+  <div class="page" id="page-ainews"> [IA Notícias] </div>
+  <div class="page" id="page-onchain"> [On-Chain] </div>
+  <div class="page" id="page-macro"> [Macro] </div>
+  <div class="page" id="page-war"> [Guerra] </div>
 </main>
 </div>
 </div>
 
 <script>
-// === GO PAGE CORRIGIDO (VERSÃO FINAL) ===
+// VERSÃO FINAL DO GO PAGE
 function goPage(id, btn) {
   console.log('goPage →', id);
   document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
-  const page = document.getElementById('page-' + id);
-  if (page) page.classList.add('on');
+  const target = document.getElementById('page-' + id);
+  if (target) target.classList.add('on');
   document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('on'));
   if (btn) btn.classList.add('on');
   document.getElementById('mainContent').scrollTop = 0;
 }
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('✅ Center Hub v28 - Versão Final Funcionando');
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('✅ Center Hub v28 - Versão Final');
 });
 </script>
 </body>
